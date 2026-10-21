@@ -313,23 +313,23 @@
   function themeColors() {
     const dark = document.documentElement.getAttribute("data-theme") === "dark";
     return dark ? {
-      text: "#c8d3e4",
-      muted: "#92a3bb",
-      grid: "rgba(200, 211, 228, 0.13)",
-      axis: "rgba(200, 211, 228, 0.35)",
-      point: "#5fc8b7",
-      pointFill: "#1c4f52",
-      line: "#e4a95a",
-      background: "rgba(18, 28, 44, 0.25)"
+      text: "#d2cec7",
+      muted: "#a3a09a",
+      grid: "rgba(242, 240, 236, 0.12)",
+      axis: "rgba(242, 240, 236, 0.30)",
+      point: "#e05a4a",
+      pointFill: "#2a1b19",
+      line: "#f2f0ec",
+      background: "rgba(23, 23, 23, 0.35)"
     } : {
-      text: "#25334a",
-      muted: "#68768c",
-      grid: "rgba(37, 51, 74, 0.10)",
-      axis: "rgba(37, 51, 74, 0.32)",
-      point: "#0d7c72",
-      pointFill: "#d9f0eb",
-      line: "#c67724",
-      background: "rgba(255, 255, 255, 0.4)"
+      text: "#333333",
+      muted: "#666666",
+      grid: "rgba(17, 17, 17, 0.08)",
+      axis: "rgba(17, 17, 17, 0.28)",
+      point: "#c53b2e",
+      pointFill: "#f4e6e3",
+      line: "#111111",
+      background: "rgba(255, 255, 255, 0.55)"
     };
   }
 

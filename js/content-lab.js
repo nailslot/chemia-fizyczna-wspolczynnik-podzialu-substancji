@@ -669,8 +669,8 @@
               <svg viewBox="0 0 260 150" aria-hidden="true">
                 <line x1="30" y1="125" x2="240" y2="125" stroke="currentColor" opacity=".5"/>
                 <line x1="30" y1="15" x2="30" y2="125" stroke="currentColor" opacity=".5"/>
-                <line x1="42" y1="113" x2="228" y2="24" stroke="#0d7c72" stroke-width="2.5"/>
-                <g fill="#0d7c72"><circle cx="45" cy="105" r="4"/><circle cx="80" cy="85" r="4"/><circle cx="115" cy="95" r="4"/><circle cx="150" cy="55" r="4"/><circle cx="185" cy="65" r="4"/><circle cx="220" cy="25" r="4"/></g>
+                <line x1="42" y1="113" x2="228" y2="24" stroke="#111111" stroke-width="2.5"/>
+                <g fill="#111111"><circle cx="45" cy="105" r="4"/><circle cx="80" cy="85" r="4"/><circle cx="115" cy="95" r="4"/><circle cx="150" cy="55" r="4"/><circle cx="185" cy="65" r="4"/><circle cx="220" cy="25" r="4"/></g>
               </svg>
               <figcaption><strong>Prawidłowo:</strong> gładka prosta dopasowana do punktów.</figcaption>
             </figure>

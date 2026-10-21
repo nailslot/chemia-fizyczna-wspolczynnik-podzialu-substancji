@@ -17,6 +17,12 @@ Następnie otwórz `http://localhost:8000`.
 
 > Wszystkie pliki są lokalne. Nie ma zewnętrznych bibliotek, CDN ani śledzenia.
 
+## Podgląd motywów
+
+Otwórz `motywy.html`, aby zobaczyć pięć minimalistycznych propozycji kolorystyki, typografii i obramowań. Po wyborze motyw zostanie zastosowany w całej aplikacji.
+
+**Aktywny motyw aplikacji:** 01 · Editorial (biel, czerń, czerwony akcent, Georgia, ostre krawędzie).
+
 ## Co zawiera
 
 ### Teoria

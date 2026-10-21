@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wybór motywu — współczynnik podziału</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #ececec;
+      color: #171717;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 48px 24px 90px;
+    }
+
+    .page-head {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .kicker {
+      margin: 0 0 8px;
+      color: #777;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      font-weight: 650;
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+    }
+
+    .lead {
+      max-width: 68ch;
+      margin: 0;
+      color: #555;
+      font-size: 1rem;
+    }
+
+    .page-note {
+      max-width: 76ch;
+      margin: 18px 0 0;
+      padding-left: 12px;
+      border-left: 2px solid #bdbdbd;
+      color: #666;
+      font-size: 0.82rem;
+    }
+
+    .choice-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 16px;
+      margin: 26px 0 30px;
+      padding: 12px 14px;
+      border: 1px solid #d2d2d2;
+      background: #f8f8f8;
+      font-size: 0.82rem;
+    }
+
+    .choice-bar strong {
+      font-weight: 700;
+      color: #111;
+    }
+
+    .choice-bar span {
+      color: #777;
+    }
+
+    .choice-bar .choice-copy {
+      margin-left: auto;
+      border: 1px solid #c7c7c7;
+      background: #fff;
+      color: #333;
+      padding: 6px 10px;
+      font: inherit;
+      font-size: 0.74rem;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .choice-bar .choice-copy:hover { background: #efefef; }
+
+    .theme-card {
+      margin: 0 0 30px;
+      border: 1px solid #d4d4d4;
+      background: #fff;
+      transition: outline-color 0.15s ease;
+    }
+
+    .theme-card.selected {
+      outline: 2px solid #111;
+      outline-offset: 2px;
+    }
+
+    .theme-meta {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 18px;
+      border-bottom: 1px solid #e3e3e3;
+    }
+
+    .theme-meta-main { min-width: 0; }
+
+    .theme-title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .theme-num {
+      color: #8a8a8a;
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .theme-meta h2 {
+      margin: 0;
+      font-size: 1.18rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+
+    .theme-meta p {
+      margin: 4px 0 0;
+      color: #666;
+      font-size: 0.8rem;
+      max-width: 72ch;
+    }
+
+    .theme-spec {
+      margin: 7px 0 0;
+      color: #777;
+      font-size: 0.7rem;
+    }
+
+    .theme-spec span + span::before {
+      content: "·";
+      margin: 0 6px;
+      color: #aaa;
+    }
+
+    .theme-side {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      flex: 0 0 auto;
+    }
+
+    .swatches {
+      display: flex;
+      gap: 5px;
+      padding-top: 2px;
+    }
+
+    .swatches i {
+      display: block;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.14);
+    }
+
+    .choose-btn {
+      border: 1px solid #c7c7c7;
+      background: #fff;
+      color: #222;
+      padding: 6px 10px;
+      font: inherit;
+      font-size: 0.7rem;
+      font-weight: 650;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .choose-btn:hover { background: #f0f0f0; }
+
+    /* ---------- wspólny szkielet podglądu ---------- */
+
+    .theme-preview {
+      --bg: #fff;
+      --surface: #fff;
+      --ink: #111;
+      --muted: #666;
+      --line: #ddd;
+      --accent: #c53b2e;
+      --accent-ink: #fff;
+      --soft: #f4f4f4;
+      --radius: 0px;
+      --sidebar-bg: #fafafa;
+      --sidebar-ink: #111;
+      --sidebar-line: #ddd;
+      --heading: Georgia, "Times New Roman", serif;
+      --body: Georgia, "Times New Roman", serif;
+      --label: "Segoe UI", system-ui, sans-serif;
+      --button-radius: 0px;
+      --shadow: none;
+
+      display: grid;
+      grid-template-columns: 192px minmax(0, 1fr);
+      min-height: 340px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--body);
+      box-shadow: var(--shadow);
+    }
+
+    .mock-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 18px 14px;
+      background: var(--sidebar-bg);
+      color: var(--sidebar-ink);
+      border-right: 1px solid var(--sidebar-line);
+    }
+
+    .mock-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .mock-mark {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: var(--button-radius);
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-family: var(--heading);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .mock-brand strong {
+      display: block;
+      font-family: var(--heading);
+      font-size: 0.72rem;
+      line-height: 1.2;
+    }
+
+    .mock-brand small {
+      display: block;
+      margin-top: 1px;
+      color: var(--muted);
+      font-family: var(--body);
+      font-size: 0.56rem;
+      line-height: 1.25;
+    }
+
+    .mock-nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .mock-nav span {
+      padding: 6px 8px;
+      border-radius: var(--button-radius);
+      color: var(--muted);
+      font-family: var(--body);
+      font-size: 0.62rem;
+      line-height: 1.3;
+    }
+
+    .mock-nav span.active {
+      background: var(--soft);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .mock-content {
+      min-width: 0;
+      padding: 24px 26px 22px;
+      background: var(--bg);
+    }
+
+    .mock-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+      color: var(--muted);
+      font-family: var(--label);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .mock-badge {
+      padding: 2px 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--accent);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+    }
+
+    .mock-content h3 {
+      margin: 0 0 9px;
+      color: var(--ink);
+      font-family: var(--heading);
+      font-size: clamp(1.5rem, 2.8vw, 2.05rem);
+      font-weight: 600;
+      line-height: 1.04;
+      letter-spacing: -0.035em;
+    }
+
+    .mock-content p {
+      max-width: 60ch;
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-family: var(--body);
+      font-size: 0.7rem;
+      line-height: 1.55;
+    }
+
+    .mock-formula {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 14px;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      color: var(--ink);
+      font-family: var(--heading);
+      font-size: 1.05rem;
+    }
+
+    .mock-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78em;
+      line-height: 1.1;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .mock-frac span:first-child {
+      padding: 0 0.28em 0.06em;
+      border-bottom: 1px solid currentColor;
+    }
+
+    .mock-frac span:last-child {
+      padding: 0.06em 0.28em 0;
+    }
+
+    .mock-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+
+    .mock-btn {
+      padding: 7px 10px;
+      border: 1px solid var(--accent);
+      border-radius: var(--button-radius);
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-family: var(--body);
+      font-size: 0.62rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: default;
+    }
+
+    .mock-btn.ghost {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .mock-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .mock-stat {
+      padding: 8px 9px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .mock-stat span {
+      display: block;
+      color: var(--muted);
+      font-family: var(--label);
+      font-size: 0.48rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mock-stat strong {
+      display: block;
+      margin-top: 2px;
+      color: var(--ink);
+      font-family: var(--heading);
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    /* ---------- 01 EDITORIAL ---------- */
+
+    .theme-1 {
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --ink: #111111;
+      --muted: #666666;
+      --line: #d8d8d8;
+      --accent: #c53b2e;
+      --accent-ink: #ffffff;
+      --soft: #f4f1ed;
+      --radius: 0px;
+      --sidebar-bg: #fbfaf8;
+      --sidebar-ink: #111111;
+      --sidebar-line: #d8d8d8;
+      --heading: Georgia, "Times New Roman", serif;
+      --body: Georgia, "Times New Roman", serif;
+      --label: "Segoe UI", system-ui, sans-serif;
+      --button-radius: 0px;
+      --shadow: none;
+    }
+
+    /* ---------- 02 NORDIC ---------- */
+
+    .theme-2 {
+      --bg: #f6f8fa;
+      --surface: #ffffff;
+      --ink: #1f2933;
+      --muted: #637381;
+      --line: #d9e2ea;
+      --accent: #3f6d91;
+      --accent-ink: #ffffff;
+      --soft: #eef3f7;
+      --radius: 8px;
+      --sidebar-bg: #eef3f7;
+      --sidebar-ink: #1f2933;
+      --sidebar-line: #d5e0e8;
+      --heading: "Segoe UI", system-ui, sans-serif;
+      --body: "Segoe UI", system-ui, sans-serif;
+      --label: "Segoe UI", system-ui, sans-serif;
+      --button-radius: 6px;
+      --shadow: 0 8px 28px rgba(31, 41, 51, 0.05);
+    }
+
+    /* ---------- 03 BOTANICAL ---------- */
+
+    .theme-3 {
+      --bg: #f8f5ec;
+      --surface: #fffdf7;
+      --ink: #233127;
+      --muted: #66705f;
+      --line: #d8d1bf;
+      --accent: #2f5d3a;
+      --accent-ink: #ffffff;
+      --soft: #eee9dc;
+      --radius: 3px;
+      --sidebar-bg: #eee9dc;
+      --sidebar-ink: #233127;
+      --sidebar-line: #d8d1bf;
+      --heading: "Palatino Linotype", Palatino, Georgia, serif;
+      --body: "Segoe UI", system-ui, sans-serif;
+      --label: "Segoe UI", system-ui, sans-serif;
+      --button-radius: 3px;
+      --shadow: none;
+    }
+
+    /* ---------- 04 GRAPHITE ---------- */
+
+    .theme-4 {
+      --bg: #17191c;
+      --surface: #1f2227;
+      --ink: #e8e6e1;
+      --muted: #9a9c9f;
+      --line: #34383f;
+      --accent: #c47a4a;
+      --accent-ink: #17191c;
+      --soft: #22262b;
+      --radius: 10px;
+      --sidebar-bg: #131518;
+      --sidebar-ink: #e8e6e1;
+      --sidebar-line: #2b2f35;
+      --heading: "Segoe UI", system-ui, sans-serif;
+      --body: "Segoe UI", system-ui, sans-serif;
+      --label: "Consolas", "SFMono-Regular", monospace;
+      --button-radius: 7px;
+      --shadow: none;
+      color-scheme: dark;
+    }
+
+    /* ---------- 05 LAVENDER ---------- */
+
+    .theme-5 {
+      --bg: #fbfaff;
+      --surface: #ffffff;
+      --ink: #2b2440;
+      --muted: #746c8a;
+      --line: #e2ddf1;
+      --accent: #6d4aff;
+      --accent-ink: #ffffff;
+      --soft: #f1edff;
+      --radius: 14px;
+      --sidebar-bg: #f3f0fc;
+      --sidebar-ink: #2b2440;
+      --sidebar-line: #e2ddf1;
+      --heading: "Trebuchet MS", "Segoe UI", sans-serif;
+      --body: "Segoe UI", system-ui, sans-serif;
+      --label: "Segoe UI", system-ui, sans-serif;
+      --button-radius: 10px;
+      --shadow: none;
+    }
+
+    .theme-card[data-num="04"] .theme-meta {
+      background: #1a1c20;
+      border-bottom-color: #2e3238;
+      color: #e8e6e1;
+    }
+
+    .theme-card[data-num="04"] .theme-meta h2 { color: #f2efe9; }
+    .theme-card[data-num="04"] .theme-meta p,
+    .theme-card[data-num="04"] .theme-spec,
+    .theme-card[data-num="04"] .theme-num { color: #a7a9ac; }
+    .theme-card[data-num="04"] .theme-meta p { color: #b8b6b1; }
+    .theme-card[data-num="04"] .choose-btn {
+      background: transparent;
+      border-color: #474c54;
+      color: #e8e6e1;
+    }
+    .theme-card[data-num="04"] .choose-btn:hover { background: #2a2e34; }
+
+    @media (max-width: 760px) {
+      .page { padding: 30px 14px 60px; }
+      .theme-meta { flex-direction: column; }
+      .theme-side { width: 100%; justify-content: space-between; }
+      .theme-preview { grid-template-columns: 1fr; }
+      .mock-sidebar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-right: 0;
+        border-bottom: 1px solid var(--sidebar-line);
+      }
+      .mock-nav { grid-template-columns: repeat(3, auto); }
+      .mock-brand small { display: none; }
+      .mock-content { padding: 20px 18px 18px; }
+      .mock-content h3 { font-size: 1.6rem; }
+    }
+
+    @media (max-width: 520px) {
+      .mock-sidebar { display: none; }
+      .mock-stats { grid-template-columns: 1fr; }
+      .choice-bar .choice-copy { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="page-head">
+      <p class="kicker">Wybór motywu</p>
+      <h1>Pięć prostych propozycji</h1>
+      <p class="lead">Ten sam fragment przewodnika w pięciu minimalistycznych wariantach. Różnią się kolorem akcentu, tłem, typografią, promieniem zaokrąglenia i sposobem obramowania.</p>
+      <p class="page-note">Kliknij „Wybierz” przy wybranym wariancie. Potem napisz jego numer lub nazwę — zastosuję motyw w całej aplikacji, podmieniając zmienne w <code>przewodnik/css/styles.css</code>. Treść merytoryczna pozostanie bez zmian.</p>
+    </header>
+
+    <div class="choice-bar" aria-live="polite">
+      <span>Wybrany motyw:</span>
+      <strong id="choice-name">jeszcze nie wybrano</strong>
+      <button type="button" class="choice-copy" id="choice-copy">Kopiuj nazwę</button>
+    </div>
+
+    <!-- 01 -->
+    <article class="theme-card" data-num="01" data-name="Editorial">
+      <header class="theme-meta">
+        <div class="theme-meta-main">
+          <div class="theme-title-row"><span class="theme-num">01</span><h2>Editorial</h2></div>
+          <p>Biel, czerń i jeden czerwony akcent. Szeryfowe nagłówki i tekst, ostre krawędzie, cienkie linie i zero cieni.</p>
+          <p class="theme-spec"><span>Georgia</span><span>promień 0 px</span><span>obramowanie 1 px</span></p>
+        </div>
+        <div class="theme-side">
+          <div class="swatches" aria-hidden="true">
+            <i style="background:#ffffff"></i><i style="background:#111111"></i><i style="background:#c53b2e"></i><i style="background:#f4f1ed"></i><i style="background:#d8d8d8"></i>
+          </div>
+          <button type="button" class="choose-btn">Wybierz</button>
+        </div>
+      </header>
+      <div class="theme-preview theme-1">
+        <aside class="mock-sidebar">
+          <div class="mock-brand"><span class="mock-mark">K</span><div><strong>Chemia fizyczna</strong><small>Współczynnik podziału</small></div></div>
+          <nav class="mock-nav"><span class="active">01 Potencjał</span><span>02 Prawo Nernsta</span><span>03 Dysocjacja</span><span>04 Wzór roboczy</span></nav>
+        </aside>
+        <main class="mock-content">
+          <div class="mock-top"><span>Moduł 03 · teoria</span><span class="mock-badge">Równowagi</span></div>
+          <h3>Równowagi dysocjacji<br>i asocjacji</h3>
+          <p>Kwas benzoesowy częściowo dysocjuje w wodzie, a w toluenie tworzy dimery. Zobacz, jak poprawki zmieniają wzór na współczynnik podziału.</p>
+          <div class="mock-formula"><span>K</span><span>=</span><span class="mock-frac"><span>c<sub>1</sub></span><span>c<sub>2</sub></span></span></div>
+          <div class="mock-actions"><span class="mock-btn">Rozpocznij moduł</span><span class="mock-btn ghost">Zobacz wzór</span></div>
+          <div class="mock-stats">
+            <div class="mock-stat"><span>K₁</span><strong>10,9</strong></div>
+            <div class="mock-stat"><span>K₂</span><strong>154,8</strong></div>
+            <div class="mock-stat"><span>Różnica</span><strong>0,3 %</strong></div>
+          </div>
+        </main>
+      </div>
+    </article>
+
+    <!-- 02 -->
+    <article class="theme-card" data-num="02" data-name="Nordic">
+      <header class="theme-meta">
+        <div class="theme-meta-main">
+          <div class="theme-title-row"><span class="theme-num">02</span><h2>Nordic</h2></div>
+          <p>Chłodna biel i grafit, stonowany błękit, miękkie zaokrąglenia i delikatne obramowania. Spokojny, uporządkowany charakter.</p>
+          <p class="theme-spec"><span>Segoe UI</span><span>promień 8 px</span><span>obramowanie 1 px</span></p>
+        </div>
+        <div class="theme-side">
+          <div class="swatches" aria-hidden="true">
+            <i style="background:#f6f8fa"></i><i style="background:#ffffff"></i><i style="background:#1f2933"></i><i style="background:#3f6d91"></i><i style="background:#d9e2ea"></i>
+          </div>
+          <button type="button" class="choose-btn">Wybierz</button>
+        </div>
+      </header>
+      <div class="theme-preview theme-2">
+        <aside class="mock-sidebar">
+          <div class="mock-brand"><span class="mock-mark">K</span><div><strong>Chemia fizyczna</strong><small>Współczynnik podziału</small></div></div>
+          <nav class="mock-nav"><span class="active">01 Potencjał</span><span>02 Prawo Nernsta</span><span>03 Dysocjacja</span><span>04 Wzór roboczy</span></nav>
+        </aside>
+        <main class="mock-content">
+          <div class="mock-top"><span>Moduł 03 · teoria</span><span class="mock-badge">Równowagi</span></div>
+          <h3>Równowagi dysocjacji<br>i asocjacji</h3>
+          <p>Kwas benzoesowy częściowo dysocjuje w wodzie, a w toluenie tworzy dimery. Zobacz, jak poprawki zmieniają wzór na współczynnik podziału.</p>
+          <div class="mock-formula"><span>K</span><span>=</span><span class="mock-frac"><span>c<sub>1</sub></span><span>c<sub>2</sub></span></span></div>
+          <div class="mock-actions"><span class="mock-btn">Rozpocznij moduł</span><span class="mock-btn ghost">Zobacz wzór</span></div>
+          <div class="mock-stats">
+            <div class="mock-stat"><span>K₁</span><strong>10,9</strong></div>
+            <div class="mock-stat"><span>K₂</span><strong>154,8</strong></div>
+            <div class="mock-stat"><span>Różnica</span><strong>0,3 %</strong></div>
+          </div>
+        </main>
+      </div>
+    </article>
+
+    <!-- 03 -->
+    <article class="theme-card" data-num="03" data-name="Botanical">
+      <header class="theme-meta">
+        <div class="theme-meta-main">
+          <div class="theme-title-row"><span class="theme-num">03</span><h2>Botanical</h2></div>
+          <p>Ciepły papier, głęboka zieleń, szeryfowe nagłówki i bardzo cienkie linie. Akademicki, ale lżejszy niż obecny motyw.</p>
+          <p class="theme-spec"><span>Palatino + Segoe UI</span><span>promień 3 px</span><span>obramowanie 1 px</span></p>
+        </div>
+        <div class="theme-side">
+          <div class="swatches" aria-hidden="true">
+            <i style="background:#f8f5ec"></i><i style="background:#fffdf7"></i><i style="background:#233127"></i><i style="background:#2f5d3a"></i><i style="background:#d8d1bf"></i>
+          </div>
+          <button type="button" class="choose-btn">Wybierz</button>
+        </div>
+      </header>
+      <div class="theme-preview theme-3">
+        <aside class="mock-sidebar">
+          <div class="mock-brand"><span class="mock-mark">K</span><div><strong>Chemia fizyczna</strong><small>Współczynnik podziału</small></div></div>
+          <nav class="mock-nav"><span class="active">01 Potencjał</span><span>02 Prawo Nernsta</span><span>03 Dysocjacja</span><span>04 Wzór roboczy</span></nav>
+        </aside>
+        <main class="mock-content">
+          <div class="mock-top"><span>Moduł 03 · teoria</span><span class="mock-badge">Równowagi</span></div>
+          <h3>Równowagi dysocjacji<br>i asocjacji</h3>
+          <p>Kwas benzoesowy częściowo dysocjuje w wodzie, a w toluenie tworzy dimery. Zobacz, jak poprawki zmieniają wzór na współczynnik podziału.</p>
+          <div class="mock-formula"><span>K</span><span>=</span><span class="mock-frac"><span>c<sub>1</sub></span><span>c<sub>2</sub></span></span></div>
+          <div class="mock-actions"><span class="mock-btn">Rozpocznij moduł</span><span class="mock-btn ghost">Zobacz wzór</span></div>
+          <div class="mock-stats">
+            <div class="mock-stat"><span>K₁</span><strong>10,9</strong></div>
+            <div class="mock-stat"><span>K₂</span><strong>154,8</strong></div>
+            <div class="mock-stat"><span>Różnica</span><strong>0,3 %</strong></div>
+          </div>
+        </main>
+      </div>
+    </article>
+
+    <!-- 04 -->
+    <article class="theme-card" data-num="04" data-name="Graphite">
+      <header class="theme-meta">
+        <div class="theme-meta-main">
+          <div class="theme-title-row"><span class="theme-num">04</span><h2>Graphite</h2></div>
+          <p>Ciemny grafit, jasny tekst i miedziany akcent. Minimalistyczny, techniczny charakter; dobra opcja do pracy wieczorem.</p>
+          <p class="theme-spec"><span>Segoe UI + Consolas</span><span>promień 10 px</span><span>obramowanie 1 px</span></p>
+        </div>
+        <div class="theme-side">
+          <div class="swatches" aria-hidden="true">
+            <i style="background:#17191c"></i><i style="background:#1f2227"></i><i style="background:#e8e6e1"></i><i style="background:#c47a4a"></i><i style="background:#34383f"></i>
+          </div>
+          <button type="button" class="choose-btn">Wybierz</button>
+        </div>
+      </header>
+      <div class="theme-preview theme-4">
+        <aside class="mock-sidebar">
+          <div class="mock-brand"><span class="mock-mark">K</span><div><strong>Chemia fizyczna</strong><small>Współczynnik podziału</small></div></div>
+          <nav class="mock-nav"><span class="active">01 Potencjał</span><span>02 Prawo Nernsta</span><span>03 Dysocjacja</span><span>04 Wzór roboczy</span></nav>
+        </aside>
+        <main class="mock-content">
+          <div class="mock-top"><span>Moduł 03 · teoria</span><span class="mock-badge">Równowagi</span></div>
+          <h3>Równowagi dysocjacji<br>i asocjacji</h3>
+          <p>Kwas benzoesowy częściowo dysocjuje w wodzie, a w toluenie tworzy dimery. Zobacz, jak poprawki zmieniają wzór na współczynnik podziału.</p>
+          <div class="mock-formula"><span>K</span><span>=</span><span class="mock-frac"><span>c<sub>1</sub></span><span>c<sub>2</sub></span></span></div>
+          <div class="mock-actions"><span class="mock-btn">Rozpocznij moduł</span><span class="mock-btn ghost">Zobacz wzór</span></div>
+          <div class="mock-stats">
+            <div class="mock-stat"><span>K₁</span><strong>10,9</strong></div>
+            <div class="mock-stat"><span>K₂</span><strong>154,8</strong></div>
+            <div class="mock-stat"><span>Różnica</span><strong>0,3 %</strong></div>
+          </div>
+        </main>
+      </div>
+    </article>
+
+    <!-- 05 -->
+    <article class="theme-card" data-num="05" data-name="Lavender">
+      <header class="theme-meta">
+        <div class="theme-meta-main">
+          <div class="theme-title-row"><span class="theme-num">05</span><h2>Lavender</h2></div>
+          <p>Biel z chłodnym fioletem, lekkie zaokrąglenia i miękkie obramowania. Najbardziej nowoczesny i „lekki” wariant.</p>
+          <p class="theme-spec"><span>Trebuchet + Segoe UI</span><span>promień 14 px</span><span>obramowanie 1 px</span></p>
+        </div>
+        <div class="theme-side">
+          <div class="swatches" aria-hidden="true">
+            <i style="background:#fbfaff"></i><i style="background:#ffffff"></i><i style="background:#2b2440"></i><i style="background:#6d4aff"></i><i style="background:#e2ddf1"></i>
+          </div>
+          <button type="button" class="choose-btn">Wybierz</button>
+        </div>
+      </header>
+      <div class="theme-preview theme-5">
+        <aside class="mock-sidebar">
+          <div class="mock-brand"><span class="mock-mark">K</span><div><strong>Chemia fizyczna</strong><small>Współczynnik podziału</small></div></div>
+          <nav class="mock-nav"><span class="active">01 Potencjał</span><span>02 Prawo Nernsta</span><span>03 Dysocjacja</span><span>04 Wzór roboczy</span></nav>
+        </aside>
+        <main class="mock-content">
+          <div class="mock-top"><span>Moduł 03 · teoria</span><span class="mock-badge">Równowagi</span></div>
+          <h3>Równowagi dysocjacji<br>i asocjacji</h3>
+          <p>Kwas benzoesowy częściowo dysocjuje w wodzie, a w toluenie tworzy dimery. Zobacz, jak poprawki zmieniają wzór na współczynnik podziału.</p>
+          <div class="mock-formula"><span>K</span><span>=</span><span class="mock-frac"><span>c<sub>1</sub></span><span>c<sub>2</sub></span></span></div>
+          <div class="mock-actions"><span class="mock-btn">Rozpocznij moduł</span><span class="mock-btn ghost">Zobacz wzór</span></div>
+          <div class="mock-stats">
+            <div class="mock-stat"><span>K₁</span><strong>10,9</strong></div>
+            <div class="mock-stat"><span>K₂</span><strong>154,8</strong></div>
+            <div class="mock-stat"><span>Różnica</span><strong>0,3 %</strong></div>
+          </div>
+        </main>
+      </div>
+    </article>
+
+    <p class="page-note">Po wyborze dostosuję również warianty ciemne, styl tabel, wykresów, przycisków i wydruku, żeby cała aplikacja była spójna — nie tylko ten podgląd.</p>
+  </div>
+
+  <script>
+    (function () {
+      const cards = Array.from(document.querySelectorAll(".theme-card"));
+      const nameEl = document.getElementById("choice-name");
+      const copyBtn = document.getElementById("choice-copy");
+      let selected = "";
+
+      cards.forEach(function (card) {
+        const button = card.querySelector(".choose-btn");
+        if (!button) return;
+        button.addEventListener("click", function () {
+          cards.forEach(function (other) { other.classList.remove("selected"); });
+          card.classList.add("selected");
+          selected = "Motyw " + card.dataset.num + " · " + card.dataset.name;
+          nameEl.textContent = selected;
+          button.textContent = "Wybrany";
+          cards.forEach(function (other) {
+            if (other !== card) {
+              const otherButton = other.querySelector(".choose-btn");
+              if (otherButton) otherButton.textContent = "Wybierz";
+            }
+          });
+        });
+      });
+
+      if (copyBtn) {
+        copyBtn.addEventListener("click", function () {
+          if (!selected) {
+            nameEl.textContent = "najpierw kliknij „Wybierz” przy motywie";
+            return;
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(selected).then(function () {
+              copyBtn.textContent = "Skopiowano";
+              setTimeout(function () { copyBtn.textContent = "Kopiuj nazwę"; }, 1600);
+            });
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -115,47 +115,47 @@
             <svg viewBox="0 0 430 360" role="img">
               <defs>
                 <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#ffffff" stop-opacity=".72"/>
-                  <stop offset="100%" stop-color="#dcecf0" stop-opacity=".22"/>
+                  <stop offset="0%" stop-color="var(--hero-glass-1, #ffffff)" stop-opacity=".72"/>
+                  <stop offset="100%" stop-color="var(--hero-glass-2, #f0f0f0)" stop-opacity=".35"/>
                 </linearGradient>
                 <linearGradient id="organic" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#e9b76c" stop-opacity=".85"/>
-                  <stop offset="100%" stop-color="#d99a43" stop-opacity=".92"/>
+                  <stop offset="0%" stop-color="var(--hero-organic-1, #f0d9d5)" stop-opacity=".9"/>
+                  <stop offset="100%" stop-color="var(--hero-organic-2, #e4b8b1)" stop-opacity=".95"/>
                 </linearGradient>
                 <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#78c8c2" stop-opacity=".88"/>
-                  <stop offset="100%" stop-color="#2c8f8d" stop-opacity=".96"/>
+                  <stop offset="0%" stop-color="var(--hero-water-1, #efefef)" stop-opacity=".95"/>
+                  <stop offset="100%" stop-color="var(--hero-water-2, #dcdcdc)" stop-opacity=".98"/>
                 </linearGradient>
                 <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
                   <feGaussianBlur stdDeviation="9"/>
                 </filter>
               </defs>
-              <ellipse cx="215" cy="320" rx="130" ry="18" fill="#1c3347" opacity=".13" filter="url(#soft)"/>
-              <path d="M126 52h178v188c0 34-28 60-62 60h-54c-34 0-62-26-62-60V52z" fill="url(#glass)" stroke="#f8fbfb" stroke-width="2.5" opacity=".96"/>
+              <ellipse cx="215" cy="320" rx="130" ry="18" fill="currentColor" opacity=".10" filter="url(#soft)"/>
+              <path d="M126 52h178v188c0 34-28 60-62 60h-54c-34 0-62-26-62-60V52z" fill="url(#glass)" stroke="currentColor" stroke-width="2.5" opacity=".96"/>
               <path d="M130 160h170v80c0 33-27 58-59 58h-52c-32 0-59-25-59-58v-80z" fill="url(#water)"/>
               <path d="M130 110h170v50H130z" fill="url(#organic)"/>
-              <path d="M130 159h170v4H130z" fill="#ffffff" opacity=".55"/>
-              <path d="M126 52h178v188c0 34-28 60-62 60h-54c-34 0-62-26-62-60V52z" fill="none" stroke="#f8fbfb" stroke-width="2.5"/>
-              <g class="svg-particles" fill="#fff6e0">
+              <path d="M130 159h170v4H130z" fill="currentColor" opacity=".18"/>
+              <path d="M126 52h178v188c0 34-28 60-62 60h-54c-34 0-62-26-62-60V52z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+              <g class="svg-particles" fill="currentColor" opacity=".78">
                 <circle cx="166" cy="132" r="5"/><circle cx="205" cy="122" r="4"/>
                 <circle cx="247" cy="140" r="5.5"/><circle cx="278" cy="125" r="3.7"/>
                 <circle cx="181" cy="193" r="4.5"/><circle cx="230" cy="214" r="5"/>
                 <circle cx="267" cy="190" r="3.8"/><circle cx="198" cy="246" r="4.2"/>
                 <circle cx="153" cy="230" r="3.5"/><circle cx="282" cy="235" r="4.7"/>
               </g>
-              <g fill="#dff7f3">
+              <g fill="currentColor" opacity=".42">
                 <circle cx="175" cy="268" r="2.6"/><circle cx="248" cy="272" r="2.3"/>
                 <circle cx="217" cy="296" r="2.8"/><circle cx="292" cy="262" r="2.2"/>
                 <circle cx="142" cy="286" r="2.1"/><circle cx="263" cy="302" r="2"/>
               </g>
-              <g font-family="system-ui, sans-serif" font-size="10.5" fill="#d8e6ef" text-anchor="end">
+              <g font-family="system-ui, sans-serif" font-size="10.5" fill="currentColor" text-anchor="end">
                 <text x="420" y="108">faza organiczna</text>
-                <text x="420" y="123" fill="#9fb3c9">toluen</text>
+                <text x="420" y="123" opacity=".62">toluen</text>
                 <text x="420" y="190">faza wodna</text>
-                <text x="420" y="205" fill="#9fb3c9">woda</text>
+                <text x="420" y="205" opacity=".62">woda</text>
               </g>
-              <path d="M306 104h-22" stroke="#8fa8bd" stroke-width="1.4"/>
-              <path d="M306 186h-22" stroke="#8fa8bd" stroke-width="1.4"/>
+              <path d="M306 104h-22" stroke="currentColor" stroke-width="1.4" opacity=".35"/>
+              <path d="M306 186h-22" stroke="currentColor" stroke-width="1.4" opacity=".35"/>
             </svg>
             <div class="hero-badge"><span>K</span><small>stała w danej<br>temperaturze</small></div>
           </div>
