@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Współczynnik podziału — interaktywny przewodnik | Chemia fizyczna</title>
+  <meta name="description" content="Interaktywny przewodnik po ćwiczeniu „Współczynnik podziału substancji”: teoria, laboratorium, obliczenia, rachunek błędów, wykresy i sprawozdanie.">
+  <meta name="theme-color" content="#16243a">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Nawigacja przewodnika">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><span>K</span></div>
+        <div class="brand-copy">
+          <p class="brand-kicker">Chemia fizyczna</p>
+          <p class="brand-title">Współczynnik podziału</p>
+          <p class="brand-sub">przewodnik laboratoryjny</p>
+        </div>
+      </div>
+      <div class="sidebar-scroll">
+        <nav id="nav" aria-label="Spis modułów"></nav>
+      </div>
+      <div class="sidebar-footer">
+        <div class="sidebar-progress-top">
+          <span>Postęp</span>
+          <strong id="sidebarProgressText">0 z 12 modułów</strong>
+        </div>
+        <div class="progress-track"><span id="sidebarProgressBar"></span></div>
+        <p class="sidebar-note">Postęp i dane zapisują się lokalnie w przeglądarce.</p>
+        <button type="button" class="sidebar-reset" id="resetState">Wyczyść postęp i dane</button>
+      </div>
+    </aside>
+
+    <div class="mobile-scrim" id="scrim" aria-hidden="true"></div>
+
+    <div class="workspace">
+      <header class="topbar">
+        <button type="button" class="icon-btn menu-btn" id="menuBtn" aria-label="Otwórz menu" aria-expanded="false" aria-controls="sidebar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="topbar-context">
+          <span class="topbar-eyebrow" id="topEyebrow">Wprowadzenie</span>
+          <strong id="topTitle">Start</strong>
+        </div>
+        <div class="topbar-actions">
+          <div class="progress-chip" title="Postęp w modułach">
+            <span class="progress-label">Postęp</span>
+            <span id="progressText">0/12</span>
+            <span class="progress-mini"><i id="progressBar"></i></span>
+          </div>
+          <button type="button" class="icon-btn theme-btn" id="themeBtn" aria-label="Przełącz motyw jasny/ciemny">
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main id="main" tabindex="-1">
+        <div id="page"></div>
+      </main>
+
+      <footer class="site-footer">
+        <p>Materiał dydaktyczny opracowany na podstawie skryptu <em>Chemia fizyczna — ćwiczenia laboratoryjne</em>.</p>
+        <p>Przewodnik nie zastępuje instrukcji prowadzącego ani kart charakterystyki substancji.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div id="modalRoot"></div>
+
+  <script src="js/tools.js" defer></script>
+  <script src="js/content.js" defer></script>
+  <script src="js/content-lab.js" defer></script>
+  <script src="js/content-final.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
